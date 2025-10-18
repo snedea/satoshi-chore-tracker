@@ -1,0 +1,21 @@
+{
+  "name": "Satoshi's Chore Tracker",
+  "short_name": "Satoshi Chores",
+  "description": "Learn about Bitcoin and blockchain by completing chores and earning satoshis!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F0F4F8",
+  "theme_color": "#F7931A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/satoshi-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "finance", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

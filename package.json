@@ -1,0 +1,25 @@
+{
+  "name": "satoshi-chore-tracker",
+  "version": "1.0.0",
+  "description": "Educational web application teaching Bitcoin and blockchain concepts to children through gamified chore tracking",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": ["bitcoin", "education", "chores", "satoshi", "blockchain", "kids"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "jsdom": "^23.0.0"
+  },
+  "dependencies": {}
+}
