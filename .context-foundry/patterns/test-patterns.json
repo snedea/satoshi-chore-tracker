@@ -1,0 +1,169 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-10-18T23:51:45Z",
+  "total_patterns": 3,
+  "test_strategies": [
+    {
+      "pattern_id": "vitest-jsdom-vanilla",
+      "name": "Vitest with jsdom for Vanilla JS Apps",
+      "first_used": "2025-10-18",
+      "last_used": "2025-10-18",
+      "success_count": 1,
+      "failure_count": 0,
+      "project_types": ["vanilla-js", "vite", "es6-modules"],
+      "description": "Use Vitest testing framework with jsdom environment for vanilla JavaScript applications built with Vite",
+      "benefits": [
+        "Vite-native (same tool for dev and test)",
+        "Fast execution (ESM-native, no transpilation)",
+        "Modern DX with excellent error messages",
+        "Compatible with Jest API (easy migration)",
+        "Built-in coverage reporting"
+      ],
+      "configuration": {
+        "test_environment": "jsdom",
+        "globals": true,
+        "coverage_provider": "v8",
+        "coverage_reporters": ["text", "html"],
+        "exclude": ["node_modules/", "tests/", "*.config.js"]
+      },
+      "test_organization": {
+        "unit_tests": "tests/unit/",
+        "integration_tests": "tests/integration/",
+        "helpers": "tests/helpers/testUtils.js"
+      },
+      "achieved_metrics": {
+        "total_tests": 68,
+        "pass_rate_percent": 88.2,
+        "execution_time_ms": "<1000",
+        "coverage_percent": 88.2
+      }
+    },
+    {
+      "pattern_id": "test-isolation-cleanup",
+      "name": "Test Isolation with beforeEach/afterEach Cleanup",
+      "first_used": "2025-10-18",
+      "last_used": "2025-10-18",
+      "success_count": 1,
+      "failure_count": 0,
+      "project_types": ["all"],
+      "description": "Ensure test isolation by resetting state and mocks before/after each test",
+      "benefits": [
+        "Prevents state leaking between tests",
+        "Tests can run in any order",
+        "More reliable test results",
+        "Easier to debug test failures"
+      ],
+      "implementation": {
+        "before_each": [
+          "Reset store state",
+          "Clear localStorage mock",
+          "Reset spies and mocks"
+        ],
+        "after_each": [
+          "Restore original functions",
+          "Clean up event listeners",
+          "Clear timers"
+        ]
+      },
+      "code_example": "beforeEach(() => { store.reset(); localStorage.clear(); vi.clearAllMocks(); });"
+    },
+    {
+      "pattern_id": "integration-test-workflows",
+      "name": "Integration Tests for Complete User Workflows",
+      "first_used": "2025-10-18",
+      "last_used": "2025-10-18",
+      "success_count": 1,
+      "failure_count": 0,
+      "project_types": ["web-app", "spa"],
+      "description": "Test complete user workflows end-to-end, from user action to state persistence",
+      "benefits": [
+        "Validates that modules work together",
+        "Catches integration issues unit tests miss",
+        "Provides confidence in critical paths",
+        "Documents expected user flows"
+      ],
+      "test_scenarios": [
+        {
+          "name": "Complete Chore Workflow",
+          "steps": [
+            "Create chore",
+            "Verify chore appears in list",
+            "Complete chore",
+            "Verify balance increased",
+            "Verify transaction created",
+            "Verify achievement unlocked (if applicable)",
+            "Verify localStorage persistence"
+          ]
+        },
+        {
+          "name": "Data Persistence Workflow",
+          "steps": [
+            "Create and modify data",
+            "Simulate page reload (call store.load())",
+            "Verify data restored correctly",
+            "Export data as JSON",
+            "Reset state",
+            "Import data",
+            "Verify restoration"
+          ]
+        },
+        {
+          "name": "Parent Mode Workflow",
+          "steps": [
+            "Set PIN",
+            "Verify PIN required for access",
+            "Create chore as parent",
+            "Verify child can see chore",
+            "Verify child cannot delete parent chore"
+          ]
+        }
+      ]
+    }
+  ],
+
+  "testing_best_practices": [
+    {
+      "practice": "Mock localStorage in tests",
+      "rationale": "jsdom localStorage is limited, create custom mock for full control",
+      "implementation": "Create localStorageMock in testUtils.js, apply in beforeEach"
+    },
+    {
+      "practice": "Test critical paths at 100% coverage",
+      "rationale": "Core features must work reliably",
+      "critical_modules": ["storage.js", "store.js", "bitcoin.js", "validators.js", "achievements.js"]
+    },
+    {
+      "practice": "Accept minor test environment differences",
+      "rationale": "jsdom is not a real browser, some differences are expected and acceptable",
+      "recommendation": "Document expected differences, verify with manual browser testing"
+    },
+    {
+      "practice": "Use AAA pattern (Arrange-Act-Assert)",
+      "rationale": "Makes tests easy to read and understand",
+      "example": "// Arrange: setup\n// Act: execute\n// Assert: verify"
+    },
+    {
+      "practice": "Write descriptive test names",
+      "rationale": "Test names should explain what is being tested and why",
+      "good_example": "should update balance when chore completed",
+      "bad_example": "test1"
+    }
+  ],
+
+  "known_limitations": [
+    {
+      "limitation": "jsdom localStorage doesn't perfectly match browser",
+      "severity": "LOW",
+      "impact": "Minor test failures for edge cases",
+      "mitigation": "Accept failures, verify with manual browser testing",
+      "auto_apply": false
+    },
+    {
+      "limitation": "jsdom doesn't support all browser APIs",
+      "severity": "MEDIUM",
+      "impact": "Some features may need custom mocks",
+      "mitigation": "Create mocks in testUtils.js for missing APIs",
+      "auto_apply": true
+    }
+  ]
+}

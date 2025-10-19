@@ -5,11 +5,12 @@
 
 import { storage } from '../services/storage.js';
 import { addSats } from '../utils/bitcoin.js';
+import { generateUUID } from '../utils/uuid.js';
 
 // Default state structure
 const defaultState = {
   user: {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     name: 'Satoshi Student',
     avatar: '👤',
     balance: 0,
@@ -141,7 +142,7 @@ export function setUser(user) {
  */
 export function addChore(chore) {
   const newChore = {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     createdAt: new Date().toISOString(),
     completedAt: null,
     status: 'pending',
@@ -209,7 +210,7 @@ export function completeChore(id) {
 
   // Create transaction record
   const transaction = {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     type: 'earn',
     amount: chore.reward,
     description: `Completed: ${chore.title}`,
@@ -241,7 +242,7 @@ export function completeChore(id) {
  */
 export function addTransaction(transaction) {
   const newTransaction = {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     timestamp: new Date().toISOString(),
     balanceAfter: state.user.balance,
     ...transaction
@@ -338,7 +339,7 @@ function emit(event, data) {
  */
 export function reset() {
   state = JSON.parse(JSON.stringify(defaultState));
-  state.user.id = crypto.randomUUID();
+  state.user.id = generateUUID();
   state.user.createdAt = new Date().toISOString();
 
   storage.clear();
